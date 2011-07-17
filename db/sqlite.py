@@ -109,3 +109,25 @@ class DBSQLite:
 		
 		except sqlite3.Error:
 			return -1
+	
+	def dropTable(self, table_name):
+		"""docstring for dropTable"""
+		query = "DROP TABLE " + table_name
+		try:
+			self.cursor.execute(query)
+			return 1
+		
+		except sqlite3.Error:
+			return -1
+	
+	def addField(self, table_name, field):
+		"""docstring for addField"""
+		query = "ALTER TABLE " + table_name + " ADD COLUMN " + self._getFieldPart(field)
+		print query
+		
+		try:
+			self.cursor.execute(query)
+			return 1
+		
+		except sqlite3.Error:
+			return -1
