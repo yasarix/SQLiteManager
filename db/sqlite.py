@@ -120,6 +120,10 @@ class DBSQLite:
 		except sqlite3.Error:
 			return -1
 	
+	def renameTable(self, old_table_name, new_table_name):
+		"""docstring for renameTable"""
+		pass
+	
 	def addField(self, table_name, field):
 		"""docstring for addField"""
 		query = "ALTER TABLE " + table_name + " ADD COLUMN " + self._getFieldPart(field)
@@ -127,7 +131,14 @@ class DBSQLite:
 		
 		try:
 			self.cursor.execute(query)
-			return 1
+			return 1˝
 		
 		except sqlite3.Error:
 			return -1
+
+	def renameField(self, table_name, old_field_name, new_field):
+		"""docstring for renameField"""
+		pass
+
+	def dropField(self, table_name, field_name):
+		pass
