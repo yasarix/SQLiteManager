@@ -103,8 +103,6 @@ class DBSQLite:
 		
 		query+= ', '.join(query_parts) + ')'
 		
-		print query
-		
 		try:
 			self.cursor.execute(query)
 			return 1
