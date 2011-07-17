@@ -131,7 +131,7 @@ class DBSQLite:
 		
 		try:
 			self.cursor.execute(query)
-			return 1˝
+			return 1
 		
 		except sqlite3.Error:
 			return -1
