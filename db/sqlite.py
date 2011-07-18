@@ -200,6 +200,13 @@ class DBSQLite:
 			self.connection.rollback()
 			raise
 		
+		"""Now remove the temporary table"""
+		try:
+			self.dropTable(tmp_table_name)
+		except DBError:
+			self.connection.rollback()
+			raise
+		
 		return 1
 		
 	def copyTableData(self, source_table, dest_table, field_names):
