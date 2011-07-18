@@ -1,5 +1,8 @@
-class DBConnectionError(Exception):
+class DBError(Exception):
 	pass
 
-class DBQueryError(Exception):
+class DBConnectionError(DBError):
+	pass
+
+class DBQueryError(DBError):
 	pass

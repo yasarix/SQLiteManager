@@ -1,5 +1,8 @@
-class FileNotFoundError(Exception):
+class GenericError(Exception):
 	pass
 
-class FileOpenError(Exception):
+class FileNotFoundError(GenericError):
+	pass
+
+class FileOpenError(GenericError):
 	pass
