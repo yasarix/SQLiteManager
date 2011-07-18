@@ -173,7 +173,6 @@ class DBSQLite:
 			if old_field['name'] != field_name:
 				new_field_names.append(old_field['name'])
 				new_struct.append(old_field)
-		print new_struct
 		
 		try:
 			self.createTable(tmp_table_name, new_struct)
