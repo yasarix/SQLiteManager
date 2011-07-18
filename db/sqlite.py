@@ -162,8 +162,6 @@ class DBSQLite:
 	def dropField(self, table_name, field_name):
 		"Get table structure first"
 		old_struct = self.getTableStructure(table_name)
-		if old_struct < 0:
-			return old_struct
 		
 		"""New table structure"""
 		createtime = str(time.time()).split('.')[0]
@@ -179,27 +177,27 @@ class DBSQLite:
 		
 		try:
 			self.createTable(tmp_table_name, new_struct)
-		except DBQueryError:
+		except DBError:
 			self.connection.rollback()
 			raise
 		
 		"""Now copy the existing data from old table to new table"""
 		try:
 			self.copyTableData(table_name, tmp_table_name, new_field_names)
-		except DBQueryError:
+		except DBError:
 			self.connection.rollback()
 			raise
 		
 		"""Now drop existing table, and rename temporary table to original name"""
 		try:
 			self.dropTable(table_name)
-		except DBQueryError:
+		except DBError:
 			self.connection.rollback()
 			raise
 		
 		try:
 			self.renameTable(tmp_table_name, table_name)
-		except DBQueryError:
+		except DBError:
 			self.connection.rollback()
 			raise
 		
