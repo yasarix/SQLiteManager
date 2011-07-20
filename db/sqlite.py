@@ -19,8 +19,7 @@ class DBSQLite:
 					'default_value': str(sqlitefield[4]).replace("'", ""),
 					'pk': sqlitefield[5]
 				}
-		
-	
+
 	def createDatabase(self, dbfilename):
 		self.dbfilename = dbfilename
 		
@@ -156,8 +155,48 @@ class DBSQLite:
 		except sqlite3.Error, e:
 			raise DBQueryError("A query error occured: " + e.args[0])
 
-	def renameField(self, table_name, old_field_name, new_field):
-		pass
+	def renameField(self, table_name, old_field_name, new_field_name):
+		"Get table structure first"
+		old_struct = self.getTableStructure(table_name)
+		
+		"""New table structure"""
+		createtime = str(time.time()).split('.')[0]
+		tmp_table_name = "_tmp_" + createtime
+
+		new_struct = []
+		new_field_names = []
+		for old_field in old_struct:
+			if old_field['name'] == old_field_name:
+				old_field['name'] = new_field_name
+
+			new_field_names.append(old_field['name'])
+			new_struct.append(old_field)
+		
+		try:
+			self.createTable(tmp_table_name, new_struct)
+		except DBError:
+			self.connection.rollback()
+			raise
+		
+		"""Now copy the existing data from old table to new table"""
+		try:
+			self.copyTableData(table_name, tmp_table_name, new_field_names)
+		except DBError:
+			self.connection.rollback()
+			raise
+		
+		"""Now drop existing table, and rename temporary table to original name"""
+		try:
+			self.dropTable(table_name)
+		except DBError:
+			self.connection.rollback()
+			raise
+		
+		try:
+			self.renameTable(tmp_table_name, table_name)
+		except DBError:
+			self.connection.rollback()
+			raise
 
 	def dropField(self, table_name, field_name):
 		"Get table structure first"
