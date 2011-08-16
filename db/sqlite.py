@@ -26,7 +26,7 @@ class DBSQLite:
 		"""Open an empty file"""
 		fp = open(self.dbfilename, 'w')
 		fp.close()
-			
+
 		"""Now connect with SQLite"""
 		return self.openDatabase(dbfilename)
 
@@ -250,4 +250,11 @@ class DBSQLite:
 			self.cursor.execute(query)
 			return 1
 		except sqlite3.Error, e:
+			raise DBQueryError("A query error occured: " + e.args[0])
+	
+	def executeQuery(self, query):
+		"""Executes given query"""
+		try:
+			return self.cursor.execute(query)
+		except sqlite3.Error e:
 			raise DBQueryError("A query error occured: " + e.args[0])
