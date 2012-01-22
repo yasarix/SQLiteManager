@@ -245,7 +245,7 @@ class DBSQLite:
 		"""Copies data from source_table to dest_table with field_names"""
 		query = "INSERT INTO " + dest_table + " SELECT " + ', '.join(field_names)
 		query+= " FROM " + source_table
-		
+
 		try:
 			self.cursor.execute(query)
 			return 1

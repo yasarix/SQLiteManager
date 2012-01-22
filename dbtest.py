@@ -5,7 +5,7 @@ from db.sqlite import *
 table_name = 'colors'
 
 mydb = DBSQLite()
-print mydb.openDatabase("/Users/yasar/deneme.db")
+print mydb.openDatabase("/Users/yasar/Code/SQLiteManager/deneme.db")
 
 tables = mydb.getTableList()
 print "Table List:"
