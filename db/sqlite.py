@@ -34,8 +34,8 @@ class DBSQLite:
 		self.dbfilename = dbfilename
 		
 		if not os.path.exists(self.dbfilename):
-			raise
-		
+			raise DBConnectionError("Database file does not exist: " + self.dbfilename)
+
 		try:
 			self.connection = sqlite3.connect(self.dbfilename)
 			self.cursor = self.connection.cursor()
@@ -256,5 +256,5 @@ class DBSQLite:
 		"""Executes given query"""
 		try:
 			return self.cursor.execute(query)
-		except sqlite3.Error e:
+		except sqlite3.Error, e:
 			raise DBQueryError("A query error occured: " + e.args[0])
